@@ -1,0 +1,41 @@
+body{
+    font-family:Arial;
+    margin:0;
+    background:#f4f4f4;
+}
+
+header{
+    background:#ff7a00;
+    color:white;
+    padding:20px;
+}
+
+table{
+    width:90%;
+    margin:30px auto;
+
+    border-collapse:collapse;
+
+    background:white;
+}
+
+th{
+    background:#ff7a00;
+    color:white;
+}
+
+th,td{
+    padding:15px;
+    border:1px solid #ddd;
+}
+
+button{
+    background:#ff7a00;
+    color:white;
+
+    border:none;
+
+    padding:8px 15px;
+
+    border-radius:5px;
+}

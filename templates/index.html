@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abarrotes ABBA</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/stylesIndex.css') }}">
+</head>
+<body>
+
+    <header>
+        <h2>Abarrotes ABBA</h2>
+
+        <a href="{{ url_for('login') }}">
+            <button>Iniciar Sesión</button>
+        </a>
+    </header>
+
+    <section class="hero">
+
+        <h1>Tu tienda de abarrotes online</h1>
+
+        <p>
+            Compra productos desde la comodidad de tu hogar
+            y recibe tus pedidos de forma rápida y segura.
+        </p>
+
+        <a href="{{ url_for('login') }}">
+            <button class="btn-principal">
+                Empezar ahora
+            </button>
+        </a>
+
+    </section>
+
+</body>
+</html>

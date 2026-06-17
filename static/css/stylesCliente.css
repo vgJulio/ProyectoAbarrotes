@@ -1,0 +1,51 @@
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#f8f8f8;
+}
+
+header{
+    background:#ff7a00;
+    color:white;
+    padding:20px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.contenedor{
+    padding:30px;
+}
+
+.productos{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.card{
+    width:200px;
+    background:white;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    text-align:center;
+
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+
+.card button{
+    background:#ff7a00;
+    color:white;
+
+    border:none;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+}

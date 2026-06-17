@@ -1,0 +1,59 @@
+body{
+    margin:0;
+
+    height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:linear-gradient(135deg,#ff7a00,#ffb347);
+
+    font-family:Arial;
+}
+
+.contenedor{
+    background:white;
+
+    width:350px;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    box-shadow:0 0 15px rgba(0,0,0,.2);
+
+    text-align:center;
+}
+
+h1{
+    color:#ff7a00;
+}
+
+input{
+    width:90%;
+
+    padding:12px;
+
+    margin:10px 0;
+
+    border:1px solid #ccc;
+
+    border-radius:10px;
+}
+
+button{
+    width:100%;
+
+    padding:12px;
+
+    background:#ff7a00;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+}
