@@ -36,7 +36,8 @@ def login():
 
 @app.route('/clienteVista')
 def clienteVista():
-    return render_template('clienteVista.html')
+    productos = list(db.productos.find())
+    return render_template('clienteVista.html', productos=productos)
 
 @app.route('/inventarioVista')
 def inventarioVista():

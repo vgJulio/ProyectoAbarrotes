@@ -51,47 +51,21 @@
             </div>
 
             <div class="productos-grid">
+                {% for producto in productos %}
                 <article class="card-producto">
-                    <div class="producto-imagen naranja">🥚</div>
-                    <h4>Huevos blancos</h4>
-                    <p>Docena · $18.00</p>
+                    <div class="producto-imagen">
+                        {% if producto.imagen %}
+                            {{ producto.imagen }}
+                        {% else %}
+                            🛒
+                        {% endif %}
+                    </div>
+                    <h4>{{ producto.nombre }}</h4>
+                    <p>{{ producto.descripcion or producto.categoria }}</p>
+                    <p><strong>${{ "%.2f"|format(producto.precio) }}</strong> · Stock: {{ producto.stock }}</p>
                     <button>Agregar</button>
                 </article>
-
-                <article class="card-producto">
-                    <div class="producto-imagen verde">🥬</div>
-                    <h4>Lechuga fresca</h4>
-                    <p>1 unidad · $5.00</p>
-                    <button>Agregar</button>
-                </article>
-
-                <article class="card-producto">
-                    <div class="producto-imagen amarillo">🍞</div>
-                    <h4>Pan integral</h4>
-                    <p>1 barra · $12.00</p>
-                    <button>Agregar</button>
-                </article>
-
-                <article class="card-producto">
-                    <div class="producto-imagen rojo">🍎</div>
-                    <h4>Manzana roja</h4>
-                    <p>1 kg · $22.00</p>
-                    <button>Agregar</button>
-                </article>
-
-                <article class="card-producto">
-                    <div class="producto-imagen azul">🥛</div>
-                    <h4>Leche entera</h4>
-                    <p>1 litro · $16.00</p>
-                    <button>Agregar</button>
-                </article>
-
-                <article class="card-producto">
-                    <div class="producto-imagen morado">🍌</div>
-                    <h4>Plátano</h4>
-                    <p>1 mano · $10.00</p>
-                    <button>Agregar</button>
-                </article>
+                {% endfor %}
             </div>
         </section>
 
