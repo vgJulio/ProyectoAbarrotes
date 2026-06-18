@@ -40,7 +40,15 @@ def clienteVista():
 
 @app.route('/inventarioVista')
 def inventarioVista():
-    return render_template('inventarioVista.html')
+    productos = list(db.productos.find({}, {
+        'nombre': 1,
+        'precio': 1,
+        'stock': 1,
+        'categoria': 1,
+        'descripcion': 1,
+        'imagen': 1
+    }))
+    return render_template('inventarioVista.html', productos=productos)
 
 if __name__ == '__main__':
     app.run(debug=True)

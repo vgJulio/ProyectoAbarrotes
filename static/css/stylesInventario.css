@@ -1,41 +1,171 @@
-body{
-    font-family:Arial;
-    margin:0;
-    background:#f4f4f4;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #333;
 }
 
-header{
-    background:#ff7a00;
-    color:white;
-    padding:20px;
+header {
+    background: #ff7a00;
+    color: white;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 
-table{
-    width:90%;
-    margin:30px auto;
+.header-text h1 { margin: 0; font-size: 1.8rem; }
+.header-text p { margin: 6px 0 0; opacity: 0.9; }
 
-    border-collapse:collapse;
-
-    background:white;
+.btn-volver {
+    background: #ffffff;
+    color: #ff7a00;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-weight: 700;
 }
 
-th{
-    background:#ff7a00;
-    color:white;
+.contenedor {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-th,td{
-    padding:15px;
-    border:1px solid #ddd;
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
 }
 
-button{
-    background:#ff7a00;
-    color:white;
-
-    border:none;
-
-    padding:8px 15px;
-
-    border-radius:5px;
+/* LAS TARJETAS (Ahora son clickeables enteras) */
+.card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(255, 122, 0, 0.15);
+}
+
+.img-container {
+    width: 100%;
+    height: 180px;
+    background: #f0f0f0;
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-preview {
+    padding: 20px;
+}
+
+.nombre-producto {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+}
+
+.categoria {
+    display: inline-block;
+    color: #888;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+}
+
+.precio-preview {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #ff7a00;
+    margin: 0;
+}
+
+/* --- ESTILOS DE LA VENTANA EMERGENTE (MODAL) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px); /* Efecto de desenfoque al fondo */
+    z-index: 1000;
+    display: none; /* Oculto por defecto */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 450px;
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px; right: 20px;
+    background: none; border: none;
+    font-size: 2rem; color: #888;
+    cursor: pointer; line-height: 1;
+    transition: color 0.2s;
+}
+
+.close-btn:hover { color: #ff7a00; }
+
+.modal-img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain; /* Para que la imagen se vea entera sin recortarse */
+    background: #f9f9f9;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.modal-title { margin: 0 0 5px 0; font-size: 1.5rem; }
+.modal-category { color: #888; font-size: 0.9rem; }
+.modal-desc { margin: 15px 0; color: #555; line-height: 1.5; font-size: 0.95rem; }
+
+.modal-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff8f1;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.meta-item { display: flex; flex-direction: column; gap: 4px; }
+.meta-item span { font-size: 0.85rem; color: #666; }
+.meta-item strong { font-size: 1.1rem; color: #333; }
+.meta-price strong { color: #ff7a00; font-size: 1.3rem; }
+
+.btn-carrito {
+    width: 100%;
+    background: #ff7a00;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-carrito:hover { background: #e66a00; }
+
+.empty-state { text-align: center; padding: 40px; color: #666; }
