@@ -1,11 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Abarrotes ABBA | Cliente</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/stylesCliente.css') }}">
 </head>
 <body>
-    Cliente Vista
+    <header class="topbar">
+        <div class="logo-area">
+            <span class="logo-icon">🛒</span>
+            <h2>Abarrotes ABBA</h2>
+        </div>
+
+        <div class="search-box">
+            <span>🔎</span>
+            <input type="text" placeholder="Buscar productos...">
+        </div>
+
+        <div class="nav-actions">
+            <a href="#">Inicio</a>
+            <a href="#">Categorías</a>
+            <a href="#">Ofertas</a>
+            <button class="cart-btn">🛍️ Carrito (2)</button>
+        </div>
+    </header>
+
+    <main class="contenido">
+        <aside class="sidebar">
+            <h3>Categorías</h3>
+            <ul>
+                <li class="active">Todos</li>
+                <li>Frutas y verduras</li>
+                <li>Lácteos</li>
+                <li>Panadería</li>
+                <li>Granos</li>
+                <li>Bebidas</li>
+                <li>Snacks</li>
+            </ul>
+        </aside>
+
+        <section class="catalogo">
+            <div class="catalogo-header">
+                <div>
+                    <p class="eyebrow">Productos destacados</p>
+                    <h1>Compra lo que necesitas</h1>
+                </div>
+                <button class="btn-verde">Ver ofertas</button>
+            </div>
+
+            <div class="productos-grid">
+                <article class="card-producto">
+                    <div class="producto-imagen naranja">🥚</div>
+                    <h4>Huevos blancos</h4>
+                    <p>Docena · $18.00</p>
+                    <button>Agregar</button>
+                </article>
+
+                <article class="card-producto">
+                    <div class="producto-imagen verde">🥬</div>
+                    <h4>Lechuga fresca</h4>
+                    <p>1 unidad · $5.00</p>
+                    <button>Agregar</button>
+                </article>
+
+                <article class="card-producto">
+                    <div class="producto-imagen amarillo">🍞</div>
+                    <h4>Pan integral</h4>
+                    <p>1 barra · $12.00</p>
+                    <button>Agregar</button>
+                </article>
+
+                <article class="card-producto">
+                    <div class="producto-imagen rojo">🍎</div>
+                    <h4>Manzana roja</h4>
+                    <p>1 kg · $22.00</p>
+                    <button>Agregar</button>
+                </article>
+
+                <article class="card-producto">
+                    <div class="producto-imagen azul">🥛</div>
+                    <h4>Leche entera</h4>
+                    <p>1 litro · $16.00</p>
+                    <button>Agregar</button>
+                </article>
+
+                <article class="card-producto">
+                    <div class="producto-imagen morado">🍌</div>
+                    <h4>Plátano</h4>
+                    <p>1 mano · $10.00</p>
+                    <button>Agregar</button>
+                </article>
+            </div>
+        </section>
+
+        <aside class="carrito-resumen">
+            <h3>Tu carrito</h3>
+            <div class="item-carrito">
+                <span>Leche entera</span>
+                <span>$16.00</span>
+            </div>
+            <div class="item-carrito">
+                <span>Pan integral</span>
+                <span>$12.00</span>
+            </div>
+            <div class="total">
+                <strong>Total</strong>
+                <strong>$28.00</strong>
+            </div>
+            <button class="btn-finalizar">Finalizar compra</button>
+        </aside>
+    </main>
 </body>
 </html>

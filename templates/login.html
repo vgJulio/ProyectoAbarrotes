@@ -21,10 +21,20 @@
                    placeholder="Usuario"
                    required>
 
-            <input type="password"
-                   name="contraseña"
-                   placeholder="Contraseña"
-                   required>
+            <div class="password-wrapper">
+                <input type="password"
+                       id="password"
+                       name="contraseña"
+                       placeholder="Contraseña"
+                       required>
+
+                <button type="button"
+                        class="password-toggle"
+                        id="showPassword"
+                        aria-label="Mostrar contraseña">
+                    👁
+                </button>
+            </div>
 
             <button type="submit">
                 Ingresar
@@ -33,6 +43,21 @@
         </form>
 
     </div>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const showPassword = document.getElementById('showPassword');
+
+        showPassword.addEventListener('click', () => {
+            const isHidden = passwordInput.type === 'password';
+            passwordInput.type = isHidden ? 'text' : 'password';
+            showPassword.textContent = isHidden ? '🙈' : '👁';
+            showPassword.setAttribute(
+                'aria-label',
+                isHidden ? 'Ocultar contraseña' : 'Mostrar contraseña'
+            );
+        });
+    </script>
 
 </body>
 </html>

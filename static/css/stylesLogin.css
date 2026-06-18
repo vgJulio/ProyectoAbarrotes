@@ -31,7 +31,7 @@ h1{
 }
 
 input{
-    width:90%;
+    width:100%;
 
     padding:12px;
 
@@ -40,6 +40,44 @@ input{
     border:1px solid #ccc;
 
     border-radius:10px;
+    box-sizing:border-box;
+}
+
+form{
+    width:100%;
+}
+
+.password-wrapper{
+    position:relative;
+
+    width:100%;
+
+    margin:10px 0;
+}
+
+.password-wrapper input{
+    width:100%;
+
+    box-sizing:border-box;
+
+    margin:0;
+    padding-right:45px;
+}
+
+.password-toggle{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+
+    width:auto;
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-size:18px;
+    color:#666;
+    padding:0;
+    z-index:2;
 }
 
 button{
