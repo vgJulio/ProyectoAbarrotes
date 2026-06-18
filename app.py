@@ -37,7 +37,8 @@ def login():
 @app.route('/clienteVista')
 def clienteVista():
     productos = list(db.productos.find())
-    return render_template('clienteVista.html', productos=productos)
+    categorias = sorted({producto.get('categoria', 'Sin categoría') for producto in productos})
+    return render_template('clienteVista.html', productos=productos, categorias=categorias)
 
 @app.route('/inventarioVista')
 def inventarioVista():

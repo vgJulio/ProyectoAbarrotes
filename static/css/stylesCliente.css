@@ -116,6 +116,12 @@ body{
     font-weight: bold;
 }
 
+.cart-empty {
+    color: #777;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
 .catalogo {
     padding: 22px;
 }
@@ -191,6 +197,54 @@ body{
     color: white;
     padding: 10px 14px;
     border-radius: 10px;
+}
+
+.card-producto button:hover {
+    background: #e96a00;
+}
+
+.cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: none;
+    z-index: 1000;
+}
+
+.cart-overlay.open {
+    display: block;
+}
+
+.cart-modal {
+    position: fixed;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%) scale(0.95);
+    width: 340px;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 1001;
+    display: none;
+}
+
+.cart-modal.open {
+    display: block;
+    transform: translateY(-50%) scale(1);
+}
+
+.cart-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cart-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #666;
 }
 
 .carrito-resumen {
