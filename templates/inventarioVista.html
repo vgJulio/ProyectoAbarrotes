@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario ABBA</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesInventario.css') }}?v=3">
+    <title>Panel de Administración - ABBA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesInventario.css') }}?v=4">
 </head>
 <body>
     <header>
         <div class="header-text">
-            <h1>Inventario ABBA</h1>
-            <p>Lista de productos registrados en la base de datos.</p>
+            <h1>Administración de Inventario</h1>
+            <p>Gestiona, edita o elimina los productos de la tienda.</p>
         </div>
-        <a href="{{ url_for('login') }}"><button class="btn-volver" type="button">Volver</button></a>
+        <a href="{{ url_for('login') }}"><button class="btn-volver" type="button">Cerrar Sesión</button></a>
     </header>
 
     <main class="contenedor">
@@ -20,11 +20,13 @@
             <section class="grid-productos">
                 {% for producto in productos %}
                     <article class="card" 
+                        draggable="true"
+                        data-id="{{ producto._id }}"
                         data-nombre="{{ producto.nombre }}"
-                        data-categoria="{{ producto.categoria or 'Sin categoría' }}"
+                        data-categoria="{{ producto.categoria or '' }}"
                         data-precio="{{ producto.precio }}"
                         data-stock="{{ producto.stock }}"
-                        data-desc="{{ producto.descripcion or 'Sin descripción disponible.' }}"
+                        data-desc="{{ producto.descripcion or '' }}"
                         data-img="{{ url_for('static', filename='img/' ~ (producto.imagen if producto.imagen else 'placeholder.jpg')) }}">
                         
                         <div class="img-container">
@@ -32,37 +34,79 @@
                         </div>
                         <div class="card-preview">
                             <p class="nombre-producto">{{ producto.nombre }}</p>
-                            <span class="categoria">{{ producto.categoria or 'Sin categoría' }}</span>
+                            <span class="categoria">Stock: {{ producto.stock }}</span>
                             <p class="precio-preview">S/{{ producto.precio }}</p>
+                            <p class="click-to-edit"></p>
                         </div>
                     </article>
                 {% endfor %}
             </section>
         {% else %}
-            <div class="empty-state">No hay productos registrados en inventario.</div>
+            <div class="empty-state">No hay productos registrados.</div>
         {% endif %}
     </main>
+
+    <button class="fab" id="btnAgregar" title="Agregar nuevo producto">+</button>
+
+    <div id="papelera" class="tacho-basura">
+        <span class="icono-basura"></span>
+        <p>Arrastra aquí para eliminar</p>
+    </div>
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content" id="modalContent">
             <button class="close-btn" id="closeModal">&times;</button>
-            <img src="" alt="Producto" id="modalImg" class="modal-img">
-            <h2 id="modalNombre" class="modal-title"></h2>
-            <span id="modalCategoria" class="modal-category"></span>
-            <p id="modalDesc" class="modal-desc"></p>
+            <h2 id="modalTitulo" class="modal-title">Editar Producto</h2>
             
-            <div class="modal-meta">
-                <div class="meta-item">
-                    <span>Stock:</span>
-                    <strong id="modalStock"></strong>
+            <form id="formProducto" action="{{ url_for('inventarioVista') }}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" id="formId" name="producto_id">
+                
+                <div class="form-group-img">
+                    <img src="" alt="Previsualización" id="modalImgPreview" class="modal-img">
+                    <label class="btn-subir-img" for="formImagen">📷 Cambiar Imagen</label>
+                    <input type="file" id="formImagen" name="imagen" accept="image/*" style="display: none;">
                 </div>
-                <div class="meta-item meta-price">
-                    <span>Precio:</span>
-                    <strong id="modalPrecio"></strong>
+
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Nombre del Producto</label>
+                        <input type="text" id="formNombre" name="nombre" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Categoría</label>
+                        <input type="text" id="formCategoria" name="categoria" required>
+                    </div>
                 </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Precio (S/)</label>
+                        <input type="number" step="0.01" id="formPrecio" name="precio" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Stock</label>
+                        <input type="number" id="formStock" name="stock" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="formDesc" name="descripcion" rows="3"></textarea>
+                </div>
+                
+                <button type="submit" class="btn-guardar">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+    <div class="modal-overlay" id="confirmOverlay">
+        <div class="modal-content confirm-modal">
+            <div class="confirm-icon"></div>
+            <h3>¿Estás seguro?</h3>
+            <p>¿Deseas eliminar este producto de la base de datos? Esta acción no se puede deshacer.</p>
+            <div class="confirm-actions">
+                <button id="btnCancelarConfirm" class="btn-cancelar">Cancelar</button>
+                <button id="btnAceptarConfirm" class="btn-eliminar">Sí, eliminar</button>
             </div>
-            
-            <button class="btn-carrito">Agregar al carrito</button>
         </div>
     </div>
 
@@ -72,31 +116,60 @@
         const overlay = document.getElementById('modalOverlay');
         const modalContent = document.getElementById('modalContent');
         const closeModalBtn = document.getElementById('closeModal');
+        
+        const formTitulo = document.getElementById('modalTitulo');
+        const form = document.getElementById('formProducto');
+        const fId = document.getElementById('formId');
+        const fNombre = document.getElementById('formNombre');
+        const fCategoria = document.getElementById('formCategoria');
+        const fPrecio = document.getElementById('formPrecio');
+        const fStock = document.getElementById('formStock');
+        const fDesc = document.getElementById('formDesc');
+        const fImgPreview = document.getElementById('modalImgPreview');
+        const fImagenInput = document.getElementById('formImagen');
 
-        const mImg = document.getElementById('modalImg');
-        const mNombre = document.getElementById('modalNombre');
-        const mCategoria = document.getElementById('modalCategoria');
-        const mDesc = document.getElementById('modalDesc');
-        const mStock = document.getElementById('modalStock');
-        const mPrecio = document.getElementById('modalPrecio');
+        const abrirModal = () => {
+            overlay.style.display = 'flex';
+            gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+            gsap.fromTo(modalContent, 
+                { scale: 0.8, opacity: 0, y: 50 }, 
+                { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }
+            );
+        };
 
-        // Abrir Modal
         cards.forEach(card => {
             card.addEventListener('click', () => {
-                mImg.src = card.dataset.img;
-                mNombre.textContent = card.dataset.nombre;
-                mCategoria.textContent = card.dataset.categoria;
-                mDesc.textContent = card.dataset.desc;
-                mStock.textContent = card.dataset.stock + " unidades";
-                mPrecio.textContent = "S/" + card.dataset.precio;
-
-                overlay.style.display = 'flex';
-                gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3 });
-                gsap.fromTo(modalContent, 
-                    { scale: 0.8, opacity: 0, y: 50 }, 
-                    { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }
-                );
+                formTitulo.textContent = "Editar Producto";
+                fId.value = card.dataset.id;
+                fNombre.value = card.dataset.nombre;
+                fCategoria.value = card.dataset.categoria;
+                fPrecio.value = card.dataset.precio;
+                fStock.value = card.dataset.stock;
+                fDesc.value = card.dataset.desc;
+                fImgPreview.src = card.dataset.img;
+                fImgPreview.style.display = 'block';
+                abrirModal();
             });
+        });
+
+        document.getElementById('btnAgregar').addEventListener('click', () => {
+            formTitulo.textContent = "Nuevo Producto";
+            form.reset();
+            fId.value = "";
+            fImgPreview.style.display = 'none';
+            abrirModal();
+        });
+
+        fImagenInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    fImgPreview.src = e.target.result;
+                    fImgPreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
         });
 
         const cerrarModal = () => {
@@ -107,9 +180,80 @@
         };
 
         closeModalBtn.addEventListener('click', cerrarModal);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) cerrarModal(); });
 
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) cerrarModal();
+        const papelera = document.getElementById('papelera');
+        
+        const confirmOverlay = document.getElementById('confirmOverlay');
+        const btnAceptarConfirm = document.getElementById('btnAceptarConfirm');
+        const btnCancelarConfirm = document.getElementById('btnCancelarConfirm');
+
+        const pedirConfirmacion = (onConfirm) => {
+            confirmOverlay.style.display = 'flex';
+            gsap.fromTo(confirmOverlay, { opacity: 0 }, { opacity: 1, duration: 0.2 });
+            gsap.fromTo(confirmOverlay.querySelector('.modal-content'), 
+                { scale: 0.8, opacity: 0, y: 20 }, 
+                { scale: 1, opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.5)" }
+            );
+
+            btnAceptarConfirm.onclick = () => {
+                cerrarConfirmacion();
+                onConfirm(); 
+            };
+            btnCancelarConfirm.onclick = cerrarConfirmacion; 
+        };
+
+        const cerrarConfirmacion = () => {
+            gsap.to(confirmOverlay.querySelector('.modal-content'), { scale: 0.8, opacity: 0, y: 20, duration: 0.2 });
+            gsap.to(confirmOverlay, { opacity: 0, duration: 0.2, onComplete: () => {
+                confirmOverlay.style.display = 'none';
+            }});
+        };
+
+        cards.forEach(card => {
+            card.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', card.dataset.id);
+                card.classList.add('dragging');
+                papelera.classList.add('visible');
+            });
+
+            card.addEventListener('dragend', () => {
+                card.classList.remove('dragging');
+                papelera.classList.remove('visible');
+            });
+        });
+
+        papelera.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            papelera.classList.add('hover');
+        });
+
+        papelera.addEventListener('dragleave', () => {
+            papelera.classList.remove('hover');
+        });
+
+        papelera.addEventListener('drop', (e) => {
+            e.preventDefault();
+            papelera.classList.remove('hover');
+            const idProducto = e.dataTransfer.getData('text/plain');
+            
+            pedirConfirmacion(() => {
+                const tarjeta = document.querySelector(`[data-id="${idProducto}"]`);
+                
+                if(tarjeta) {
+                    fetch(`/eliminar_producto/${idProducto}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        if(response.ok) {
+                            gsap.to(tarjeta, { scale: 0, opacity: 0, duration: 0.3, onComplete: () => tarjeta.remove() });
+                        } else {
+                            alert("Hubo un error al eliminar el producto en la base de datos.");
+                        }
+                    })
+                    .catch(error => console.error("Error de conexión:", error));
+                }
+            });
         });
     </script>
 </body>

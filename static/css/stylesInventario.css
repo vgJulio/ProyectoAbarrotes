@@ -40,7 +40,6 @@ header {
     gap: 24px;
 }
 
-/* LAS TARJETAS (Ahora son clickeables enteras) */
 .card {
     background: white;
     border-radius: 14px;
@@ -92,14 +91,13 @@ header {
     margin: 0;
 }
 
-/* --- ESTILOS DE LA VENTANA EMERGENTE (MODAL) --- */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px); /* Efecto de desenfoque al fondo */
+    backdrop-filter: blur(4px);
     z-index: 1000;
-    display: none; /* Oculto por defecto */
+    display: none;
     justify-content: center;
     align-items: center;
 }
@@ -128,7 +126,7 @@ header {
 .modal-img {
     width: 100%;
     height: 250px;
-    object-fit: contain; /* Para que la imagen se vea entera sin recortarse */
+    object-fit: contain;
     background: #f9f9f9;
     border-radius: 12px;
     margin-bottom: 20px;
@@ -169,3 +167,85 @@ header {
 .btn-carrito:hover { background: #e66a00; }
 
 .empty-state { text-align: center; padding: 40px; color: #666; }
+
+.click-to-edit {
+    font-size: 0.8rem;
+    color: #007bff;
+    margin: 10px 0 0 0;
+    font-style: italic;
+}
+
+.tacho-basura {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4757;
+    color: white;
+    padding: 20px 40px;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: bottom 0.3s ease, background 0.2s;
+    z-index: 500;
+    box-shadow: 0 -10px 20px rgba(255, 71, 87, 0.3);
+}
+
+.tacho-basura.visible { bottom: 0; }
+.tacho-basura.hover { background: #ff253a; transform: translateX(-50%) scale(1.05); }
+.tacho-basura .icono-basura { font-size: 2.5rem; }
+.tacho-basura p { margin: 5px 0 0; font-weight: bold; }
+
+.card.dragging { opacity: 0.5; border: 2px dashed #ff7a00; }
+
+.fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #ff7a00;
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 2rem;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(255, 122, 0, 0.4);
+    transition: transform 0.2s;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fab:hover { transform: scale(1.1); background: #e66a00; }
+
+.form-row { display: flex; gap: 15px; margin-bottom: 15px; }
+.form-group { display: flex; flex-direction: column; width: 100%; margin-bottom: 15px; }
+.form-group label { font-size: 0.85rem; color: #555; margin-bottom: 5px; font-weight: bold; }
+.form-group input, .form-group textarea {
+    padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1rem;
+}
+.form-group input:focus, .form-group textarea:focus { outline: none; border-color: #ff7a00; }
+
+.form-group-img { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
+.btn-subir-img { background: #f0f0f0; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+.btn-subir-img:hover { background: #e0e0e0; }
+
+.btn-guardar {
+    width: 100%; background: #2ed573; color: white; border: none; padding: 14px;
+    border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background 0.2s;
+}
+.btn-guardar:hover { background: #26b963; }
+#confirmOverlay { z-index: 2000; } 
+.confirm-modal { max-width: 350px; text-align: center; padding: 40px 30px; }
+.confirm-icon { font-size: 3.5rem; margin-bottom: 15px; line-height: 1; }
+.confirm-modal h3 { margin: 0 0 10px 0; font-size: 1.5rem; color: #333; }
+.confirm-modal p { color: #666; margin-bottom: 25px; font-size: 0.95rem; line-height: 1.5; }
+
+.confirm-actions { display: flex; gap: 15px; justify-content: center; }
+.btn-cancelar { flex: 1; background: #f0f0f0; color: #555; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+.btn-cancelar:hover { background: #e0e0e0; }
+
+.btn-eliminar { flex: 1; background: #ff4757; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+.btn-eliminar:hover { background: #ff253a; }
