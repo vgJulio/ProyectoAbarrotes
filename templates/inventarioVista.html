@@ -6,17 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario ABBA</title>
 
-```
 <link rel="stylesheet"
       href="{{ url_for('static', filename='css/stylesInventario.css') }}">
-```
 
 </head>
 <body>
 
 <header>
 
-```
 <div class="header-text">
     <h1>Inventario ABBA</h1>
     <p>Administración de productos registrados.</p>
@@ -43,13 +40,12 @@
     </a>
 
 </div>
-```
+
 
 </header>
 
 <main class="contenedor">
 
-```
 {% if productos %}
 
 <section class="grid-productos">
@@ -99,13 +95,10 @@
 </section>
 
 {% endif %}
-```
 
 </main>
 
 <div class="modal-overlay" id="modalOverlay">
-
-```
 <div class="modal-content" id="modalContent">
 
     <button class="close-btn"
@@ -163,8 +156,6 @@
     </div>
 
 </div>
-```
-
 </div>
 
 <script>

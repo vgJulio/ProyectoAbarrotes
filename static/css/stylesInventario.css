@@ -141,7 +141,10 @@ cursor:pointer;
 font-weight:bold;
 }
 
-.btn-editar:hover
+.btn-editar:hover {
+    background-color: #c05d01;
+    transition: .3s ease;
+}
 
 .btn-eliminar{
 width:100%;
@@ -154,7 +157,10 @@ cursor:pointer;
 font-weight:bold;
 }
 
-.btn-eliminar:hover
+.btn-eliminar:hover {
+    background-color: #91232e;
+    transition: .3s ease;
+}
 
 .empty-state{
 text-align:center;
