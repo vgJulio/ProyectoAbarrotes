@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Editar Producto</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/stylesVendedor.css') }}">
+
+</head>
+<body>
+
+<div class="contenedor">
+
+    <h1>Editar Producto</h1>
+
+    <form method="POST">
+
+        <input type="text"
+               name="nombre"
+               value="{{ producto.nombre }}"
+               required>
+
+        <input type="text"
+               name="categoria"
+               value="{{ producto.categoria }}"
+               required>
+
+        <input type="number"
+               step="0.01"
+               name="precio"
+               value="{{ producto.precio }}"
+               required>
+
+        <input type="number"
+               name="stock"
+               value="{{ producto.stock }}"
+               required>
+
+        <textarea
+            name="descripcion">{{ producto.descripcion }}</textarea>
+
+        <input type="text"
+               name="imagen"
+               value="{{ producto.imagen }}">
+
+        <button type="submit">
+            Actualizar
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

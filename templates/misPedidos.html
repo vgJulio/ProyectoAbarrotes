@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Pedidos</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/stylesPedidos.css') }}">
+</head>
+<body>
+
+<header>
+
+    <h1>📦 Mis Pedidos</h1>
+
+    <a href="{{ url_for('clienteVista') }}">
+        <button>Volver</button>
+    </a>
+
+</header>
+
+<main>
+
+    {% if pedidos %}
+
+        {% for pedido in pedidos %}
+
+        <div class="pedido">
+
+            <h3>
+                Pedido
+            </h3>
+
+            <p>
+                Estado:
+                {{ pedido.estado }}
+            </p>
+
+            <p>
+                Total:
+                S/{{ pedido.total }}
+            </p>
+
+            <h4>Productos:</h4>
+
+            <ul>
+
+                {% for producto in pedido.productos %}
+
+                <li>
+                    {{ producto.nombre }}
+                    x
+                    {{ producto.cantidad }}
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <h2>No tienes pedidos registrados.</h2>
+
+    {% endif %}
+
+</main>
+
+</body>
+</html>

@@ -1,116 +1,239 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario ABBA</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesInventario.css') }}?v=3">
+
+```
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/stylesInventario.css') }}">
+```
+
 </head>
 <body>
-    <header>
-        <div class="header-text">
-            <h1>Inventario ABBA</h1>
-            <p>Lista de productos registrados en la base de datos.</p>
-        </div>
-        <a href="{{ url_for('login') }}"><button class="btn-volver" type="button">Volver</button></a>
-    </header>
 
-    <main class="contenedor">
-        {% if productos %}
-            <section class="grid-productos">
-                {% for producto in productos %}
-                    <article class="card" 
-                        data-nombre="{{ producto.nombre }}"
-                        data-categoria="{{ producto.categoria or 'Sin categoría' }}"
-                        data-precio="{{ producto.precio }}"
-                        data-stock="{{ producto.stock }}"
-                        data-desc="{{ producto.descripcion or 'Sin descripción disponible.' }}"
-                        data-img="{{ url_for('static', filename='img/' ~ (producto.imagen if producto.imagen else 'placeholder.jpg')) }}">
-                        
-                        <div class="img-container">
-                            <img src="{{ url_for('static', filename='img/' ~ (producto.imagen if producto.imagen else 'placeholder.jpg')) }}" alt="{{ producto.nombre }}">
-                        </div>
-                        <div class="card-preview">
-                            <p class="nombre-producto">{{ producto.nombre }}</p>
-                            <span class="categoria">{{ producto.categoria or 'Sin categoría' }}</span>
-                            <p class="precio-preview">S/{{ producto.precio }}</p>
-                        </div>
-                    </article>
-                {% endfor %}
-            </section>
-        {% else %}
-            <div class="empty-state">No hay productos registrados en inventario.</div>
-        {% endif %}
-    </main>
+<header>
 
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-content" id="modalContent">
-            <button class="close-btn" id="closeModal">&times;</button>
-            <img src="" alt="Producto" id="modalImg" class="modal-img">
-            <h2 id="modalNombre" class="modal-title"></h2>
-            <span id="modalCategoria" class="modal-category"></span>
-            <p id="modalDesc" class="modal-desc"></p>
-            
-            <div class="modal-meta">
-                <div class="meta-item">
-                    <span>Stock:</span>
-                    <strong id="modalStock"></strong>
-                </div>
-                <div class="meta-item meta-price">
-                    <span>Precio:</span>
-                    <strong id="modalPrecio"></strong>
-                </div>
-            </div>
-            
-            <button class="btn-carrito">Agregar al carrito</button>
+```
+<div class="header-text">
+    <h1>Inventario ABBA</h1>
+    <p>Administración de productos registrados.</p>
+</div>
+
+<div class="header-actions">
+
+    <a href="{{ url_for('nuevoProducto') }}">
+        <button class="btn-header">
+            + Nuevo Producto
+        </button>
+    </a>
+
+    <a href="{{ url_for('verPedidos') }}">
+        <button class="btn-header">
+            Ver Pedidos
+        </button>
+    </a>
+
+    <a href="{{ url_for('login') }}">
+        <button class="btn-volver">
+            Salir
+        </button>
+    </a>
+
+</div>
+```
+
+</header>
+
+<main class="contenedor">
+
+```
+{% if productos %}
+
+<section class="grid-productos">
+
+    {% for producto in productos %}
+
+    <article class="card"
+
+        data-id="{{ producto._id }}"
+        data-nombre="{{ producto.nombre }}"
+        data-categoria="{{ producto.categoria }}"
+        data-precio="{{ producto.precio }}"
+        data-stock="{{ producto.stock }}"
+        data-desc="{{ producto.descripcion }}"
+        data-img="{{ url_for('static',
+        filename='img/' ~ producto.imagen) }}">
+
+        <div class="img-container">
+
+            <img src="{{ url_for('static',
+                filename='img/' ~ producto.imagen) }}"
+
+                alt="{{ producto.nombre }}">
+
         </div>
+
+        <div class="card-preview">
+
+            <p class="nombre-producto">
+                {{ producto.nombre }}
+            </p>
+
+            <span class="categoria">
+                {{ producto.categoria }}
+            </span>
+
+            <p class="precio-preview">
+                S/{{ producto.precio }}
+            </p>
+
+        </div>
+
+    </article>
+
+    {% endfor %}
+
+</section>
+
+{% endif %}
+```
+
+</main>
+
+<div class="modal-overlay" id="modalOverlay">
+
+```
+<div class="modal-content" id="modalContent">
+
+    <button class="close-btn"
+            id="closeModal">
+
+        &times;
+
+    </button>
+
+    <img id="modalImg"
+         class="modal-img">
+
+    <h2 id="modalNombre"></h2>
+
+    <p id="modalCategoria"></p>
+
+    <p id="modalDesc"></p>
+
+    <div class="modal-meta">
+
+        <div>
+
+            <span>Stock</span>
+            <strong id="modalStock"></strong>
+
+        </div>
+
+        <div>
+
+            <span>Precio</span>
+            <strong id="modalPrecio"></strong>
+
+        </div>
+
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script>
-        const cards = document.querySelectorAll('.card');
-        const overlay = document.getElementById('modalOverlay');
-        const modalContent = document.getElementById('modalContent');
-        const closeModalBtn = document.getElementById('closeModal');
+    <div class="acciones-producto">
 
-        const mImg = document.getElementById('modalImg');
-        const mNombre = document.getElementById('modalNombre');
-        const mCategoria = document.getElementById('modalCategoria');
-        const mDesc = document.getElementById('modalDesc');
-        const mStock = document.getElementById('modalStock');
-        const mPrecio = document.getElementById('modalPrecio');
+        <a id="btnEditar">
 
-        // Abrir Modal
-        cards.forEach(card => {
-            card.addEventListener('click', () => {
-                mImg.src = card.dataset.img;
-                mNombre.textContent = card.dataset.nombre;
-                mCategoria.textContent = card.dataset.categoria;
-                mDesc.textContent = card.dataset.desc;
-                mStock.textContent = card.dataset.stock + " unidades";
-                mPrecio.textContent = "S/" + card.dataset.precio;
+            <button class="btn-editar">
+                Editar
+            </button>
 
-                overlay.style.display = 'flex';
-                gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3 });
-                gsap.fromTo(modalContent, 
-                    { scale: 0.8, opacity: 0, y: 50 }, 
-                    { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }
-                );
-            });
-        });
+        </a>
 
-        const cerrarModal = () => {
-            gsap.to(modalContent, { scale: 0.8, opacity: 0, y: 50, duration: 0.25, ease: "power2.in" });
-            gsap.to(overlay, { opacity: 0, duration: 0.25, onComplete: () => {
-                overlay.style.display = 'none';
-            }});
-        };
+        <a id="btnEliminar">
 
-        closeModalBtn.addEventListener('click', cerrarModal);
+            <button class="btn-eliminar">
+                Eliminar
+            </button>
 
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) cerrarModal();
-        });
-    </script>
+        </a>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<script>
+
+const cards = document.querySelectorAll('.card');
+
+const overlay = document.getElementById('modalOverlay');
+
+const modalContent =
+document.getElementById('modalContent');
+
+const btnEditar =
+document.getElementById('btnEditar');
+
+const btnEliminar =
+document.getElementById('btnEliminar');
+
+cards.forEach(card => {
+
+    card.addEventListener('click', () => {
+
+        document.getElementById('modalImg').src =
+            card.dataset.img;
+
+        document.getElementById('modalNombre').textContent =
+            card.dataset.nombre;
+
+        document.getElementById('modalCategoria').textContent =
+            card.dataset.categoria;
+
+        document.getElementById('modalDesc').textContent =
+            card.dataset.desc;
+
+        document.getElementById('modalStock').textContent =
+            card.dataset.stock;
+
+        document.getElementById('modalPrecio').textContent =
+            "S/" + card.dataset.precio;
+
+        btnEditar.href =
+            "/editarProducto/" + card.dataset.id;
+
+        btnEliminar.href =
+            "/eliminarProducto/" + card.dataset.id;
+
+        overlay.style.display = "flex";
+
+    });
+
+});
+
+document.getElementById('closeModal')
+.addEventListener('click', () => {
+
+    overlay.style.display = "none";
+
+});
+
+overlay.addEventListener('click', e => {
+
+    if(e.target === overlay){
+
+        overlay.style.display = "none";
+
+    }
+
+});
+
+</script>
+
 </body>
 </html>

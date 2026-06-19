@@ -1,0 +1,44 @@
+body{
+    margin:0;
+
+    height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-family:Arial;
+
+    background:linear-gradient(
+        135deg,
+        #ff7a00,
+        #ffb347
+    );
+}
+
+.contenedor{
+    background:white;
+
+    padding:50px;
+
+    border-radius:20px;
+
+    text-align:center;
+}
+
+h1{
+    color:#ff7a00;
+}
+
+button{
+    background:#ff7a00;
+    color:white;
+
+    border:none;
+
+    padding:15px 20px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+}

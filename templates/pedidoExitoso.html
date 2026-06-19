@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Exitoso</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/stylesPedidoExitoso.css') }}">
+</head>
+<body>
+
+<div class="contenedor">
+
+    <h1>✅ Pedido realizado</h1>
+
+    <p>
+        Tu pedido fue registrado correctamente.
+    </p>
+
+    <a href="{{ url_for('clienteVista') }}">
+        <button>Volver a la tienda</button>
+    </a>
+
+</div>
+
+</body>
+</html>
